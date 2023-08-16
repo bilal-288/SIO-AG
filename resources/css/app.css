@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+.link {
+    font-size: 16px;
+}
+
+.custom__container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.mt-3p {
+    margin-top: 3%;
+}
+
+.md-2p {
+    padding-bottom: 3%;
+}
+
+.custom {
+    background-color: #0d6efd;
+}
+
+.custom-success {
+    background-color: #198754;
+}
