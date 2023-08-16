@@ -76,8 +76,39 @@
                 chartData.push({{ $evaluationData['total_hours'] + ($evaluationData['total_minutes'] / 60) }});
             @endforeach
 
-           //graph
+           //Create an array to store labels and data for the chart
            
+            var chartLabels = [];
+            var chartData = [];
+
+            // Populate the chart data from the formattedEvaluationData
+            @foreach ($formattedEvaluationData as $evaluationData)
+                chartLabels.push("{{ $evaluationData['start_date'] }} - {{ $evaluationData['end_date'] }}");
+                chartData.push({{ $evaluationData['total_hours'] + ($evaluationData['total_minutes'] / 60) }});
+            @endforeach
+
+            //Create the evaluation chart
+            var ctx = document.getElementById('evaluationChart').getContext('2d');
+            var evaluationChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: chartLabels,
+                    datasets: [{
+                        label: 'Total Hours',
+                        data: chartData,
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
             $('#dateFilter, #weekFilter, #monthFilter').on('change', function () {
                 table.draw();
             });
