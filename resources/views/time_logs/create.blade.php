@@ -17,6 +17,9 @@
                             <span class="glyphicon glyphicon-calendar"></span>
                         </span>
                     </div>
+                    @error('start_time')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
 
                     <span>End Date</span>
                     <div class='input-group date' id='datetimepicker2'>
@@ -25,7 +28,9 @@
                             <span class="glyphicon glyphicon-calendar"></span>
                         </span>
                     </div>
-
+                    @error('end_time')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
                     <button type="submit" class="btn btn-primary mt-3 custom">Submit</button>
                 </form>
             </div>

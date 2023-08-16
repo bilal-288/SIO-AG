@@ -43,6 +43,11 @@ class TimeLogController extends Controller
      */
     public function store(Request $request)
     {
+        //validation date
+        $validatedData = $request->validate([
+            'start_time' => 'required|date_format:m/d/Y H:i',
+            'end_time' => 'required|date_format:m/d/Y H:i|after:start_time',
+        ]);
         $startDateTime = Carbon::createFromFormat('m/d/Y H:i', $request->input('start_time'));
         $endDateTime = Carbon::createFromFormat('m/d/Y H:i', $request->input('end_time'));
 
