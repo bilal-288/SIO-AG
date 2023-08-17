@@ -56,6 +56,7 @@
 @section('scripts')
 @parent
 
+<script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script> <!-- Include Moment.js library -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Include Chart.js library -->
 
 <script>
@@ -68,49 +69,6 @@
             ]
         });
 
-        // Create an array to store labels and data for the chart
-        var chartLabels = [];
-        var chartData = [];
-
-        // Populate the chart data from the formattedEvaluationData
-        @foreach ($formattedEvaluationData as $evaluationData)
-            chartLabels.push("{{ $evaluationData['start_date'] }} - {{ $evaluationData['end_date'] }}");
-            chartData.push({{ $evaluationData['total_hours'] + ($evaluationData['total_minutes'] / 60) }});
-        @endforeach
-
-       //Create an array to store labels and data for the chart
-       
-        var chartLabels = [];
-        var chartData = [];
-
-        // Populate the chart data from the formattedEvaluationData
-        @foreach ($formattedEvaluationData as $evaluationData)
-            chartLabels.push("{{ $evaluationData['start_date'] }} - {{ $evaluationData['end_date'] }}");
-            chartData.push({{ $evaluationData['total_hours'] + ($evaluationData['total_minutes'] / 60) }});
-        @endforeach
-
-        //Create the evaluation chart
-        var ctx = document.getElementById('evaluationChart').getContext('2d');
-        var evaluationChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: chartLabels,
-                datasets: [{
-                    label: 'Total Hours',
-                    data: chartData,
-                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                    borderColor: 'rgba(54, 162, 235, 1)',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
         $('#dateFilter, #weekFilter, #monthFilter').on('change', function () {
             table.draw();
         });
@@ -119,7 +77,7 @@
             var startDate = new Date($('#dateFilter').val());
             var weekValue = $('#weekFilter').val();
             var monthValue = $('#monthFilter').val();
-            var startDateColumn = new Date(data[0]); // Assuming start date is in the first column
+            var startDateColumn = new Date(data[1]); // Assuming start date is in the second column
             
             // Compare only year, month, and day parts for exact date match
             var selectedYear = startDate.getFullYear();
@@ -147,6 +105,39 @@
             }
 
             return false;
+        });
+
+        // Create an array to store labels and data for the chart
+        var chartLabels = [];
+        var chartData = [];
+
+        // Populate the chart data from the formattedEvaluationData
+        @foreach ($formattedEvaluationData as $evaluationData)
+            chartLabels.push("{{ $evaluationData['project_name'] }}");
+            chartData.push({{ $evaluationData['total_hours'] + ($evaluationData['total_minutes'] / 60) }});
+        @endforeach
+
+        // Create the evaluation chart
+        var ctx = document.getElementById('evaluationChart').getContext('2d');
+        var evaluationChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: chartLabels,
+                datasets: [{
+                    label: 'Total Hours',
+                    data: chartData,
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
         });
     });
 </script>

@@ -1,7 +1,7 @@
 
 # SIO management
 
-## Project is based on  Laravel 6.* 
+## Project is based on  Laravel 10.* 
 * [Programing Languages](#programing)
 * [Features](#feature1)
 * [Requirements](#feature2)
