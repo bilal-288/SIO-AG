@@ -12,6 +12,7 @@
     <table id="timeLogsTable">
         <thead>
             <tr>
+                <th>Project</th>
                 <th>Start Time</th>
                 <th>End Time</th>
                 <th>Edit</th>
@@ -21,19 +22,19 @@
         <tbody>
             @foreach($timeLogs as $timeLog)
             <tr>
+                <td>{{ $timeLog->project->name }}</td>
                 <td>{{ $timeLog->start_time }}</td>
                 <td>{{ $timeLog->end_time }}</td>
-                <!-- <td><a href="{{ route('time-logs.edit', $timeLog) }}">Edit</a></td> -->
                 <td>
                     <a href="{{ route('time-logs.edit', $timeLog) }}">
                         <i class="fa-regular fa-pen-to-square"></i>
                     </a>
                 </td>
                 <td>
-                    <form id="delete-form" method="POST" action="{{ route('time-logs.destroy', $timeLog) }}">
+                    <form id="delete-form-{{ $timeLog->id }}" method="POST" action="{{ route('time-logs.destroy', $timeLog) }}">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" id="delete-button"><i class="fa-solid fa-trash"></i></button>
+                        <button type="submit" id="delete-button-{{ $timeLog->id }}"><i class="fa-solid fa-trash"></i></button>
                     </form>
                 </td>
             </tr>
@@ -50,15 +51,17 @@
     });
 
     document.addEventListener('DOMContentLoaded', function () {
-        const deleteForm = document.getElementById('delete-form');
-        const deleteButton = document.getElementById('delete-button');
+        @foreach($timeLogs as $timeLog)
+        const deleteForm{{ $timeLog->id }} = document.getElementById('delete-form-{{ $timeLog->id }}');
+        const deleteButton{{ $timeLog->id }} = document.getElementById('delete-button-{{ $timeLog->id }}');
 
-        deleteButton.addEventListener('click', function (event) {
+        deleteButton{{ $timeLog->id }}.addEventListener('click', function (event) {
             event.preventDefault();
             if (confirm('Do you really want to delete this time log?')) {
-                deleteForm.submit();
+                deleteForm{{ $timeLog->id }}.submit();
             }
         });
+        @endforeach
     });
 </script>
 @endsection

@@ -10,7 +10,19 @@
                 <form method="POST" action="{{ route('time-logs.update', $timeLog->id) }}">
                     @csrf
                     @method('PUT')
-
+                    
+                    <span>Project</span>
+                    <select name="project_id" class="form-control">
+                        @foreach($projects as $project)
+                            <option value="{{ $project->id }}" {{ $timeLog->project_id == $project->id ? 'selected' : '' }}>
+                                {{ $project->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('project_id')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
+                    
                     <span>Start Date</span>
                     <div class='input-group date' id='datetimepicker1'>
                         <input type='text' class="form-control" name="start_time" value="{{ $timeLog->start_time }}"  autocomplete="off"/>
@@ -18,6 +30,9 @@
                             <span class="glyphicon glyphicon-calendar"></span>
                         </span>
                     </div>
+                    @error('start_time')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
 
                     <span>End Date</span>
                     <div class='input-group date' id='datetimepicker2'>
@@ -26,6 +41,9 @@
                             <span class="glyphicon glyphicon-calendar"></span>
                         </span>
                     </div>
+                    @error('end_time')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
 
                     <button type="submit" class="btn btn-success mt-3 custom-success">Update</button>
                 </form>

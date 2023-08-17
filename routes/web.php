@@ -3,7 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TimeLogController;
-
+use App\Http\Controllers\ProjectController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,6 +30,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');   
     Route::resource('time-logs', TimeLogController::class);
     Route::get('evaluation', [TimeLogController::class, 'evaluation'])->name('evaluation');
+    Route::resource('projects', ProjectController::class);
+
 
 });
 
